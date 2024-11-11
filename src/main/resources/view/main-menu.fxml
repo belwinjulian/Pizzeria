@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="pizzeria.pizzeria.controller.pizzeriaController" alignment="CENTER" hgap="10" vgap="10">
+    <Label text="RU Pizza Main Menu" GridPane.columnSpan="2" style="-fx-font-size: 24px; -fx-text-fill: #0000FF;" GridPane.halignment="CENTER"/>
+
+    <!-- Chicago Style -->
+    <VBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <ImageView fx:id="chicagoImage" fitWidth="200" fitHeight="150">
+            <Image url="@/Chicago-Style-pizza.jpg"/>
+        </ImageView>
+        <Label text="Chicago Style"/>
+    </VBox>
+
+    <!-- NY Style -->
+    <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <ImageView fx:id="nyImage" fitWidth="200" fitHeight="150">
+            <Image url="@/New-York-Style-pizza.jpg"/>
+        </ImageView>
+        <Label text="NY Style"/>
+    </VBox>
+
+    <!-- Orders Placed -->
+    <VBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <ImageView fx:id="ordersImage" fitWidth="200" fitHeight="150">
+            <Image url="@/place-order-1.png"/>
+        </ImageView>
+        <Label text="Orders Placed"/>
+    </VBox>
+
+    <!-- Current Order -->
+    <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <ImageView fx:id="currentOrderImage" fitWidth="200" fitHeight="150">
+            <Image url="@/cart.png"/>
+        </ImageView>
+        <Label text="Current Order"/>
+    </VBox>
+</GridPane>
