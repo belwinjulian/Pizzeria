@@ -9,7 +9,7 @@
     <Label text="RU Pizza Main Menu" GridPane.columnSpan="2" style="-fx-font-size: 24px; -fx-text-fill: #0000FF;" GridPane.halignment="CENTER"/>
 
     <!-- Chicago Style -->
-    <VBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <VBox fx:id="chicagoVBox" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1" onMouseClicked="#handleChicagoClick">
         <ImageView fx:id="chicagoImage" fitWidth="200" fitHeight="150">
             <Image url="@/Chicago-Style-pizza.jpg"/>
         </ImageView>
@@ -17,7 +17,7 @@
     </VBox>
 
     <!-- NY Style -->
-    <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <VBox fx:id="nyVBox" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" onMouseClicked="#handleNewYorkClick">
         <ImageView fx:id="nyImage" fitWidth="200" fitHeight="150">
             <Image url="@/New-York-Style-pizza.jpg"/>
         </ImageView>
@@ -25,7 +25,7 @@
     </VBox>
 
     <!-- Orders Placed -->
-    <VBox alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <VBox fx:id="ordersBox" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <ImageView fx:id="ordersImage" fitWidth="200" fitHeight="150">
             <Image url="@/place-order-1.png"/>
         </ImageView>
@@ -33,7 +33,7 @@
     </VBox>
 
     <!-- Current Order -->
-    <VBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <VBox fx:id="currentVBox" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <ImageView fx:id="currentOrderImage" fitWidth="200" fitHeight="150">
             <Image url="@/cart.png"/>
         </ImageView>
