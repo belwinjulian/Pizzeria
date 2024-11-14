@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 15; -fx-background-color: lightyellow;" fx:controller="pizzeria.pizzeria.controller.OrdersPlacedController">
+    <!-- Title -->
+    <Label text="Store Orders" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <!-- Order Number and Total -->
+    <HBox spacing="10">
+        <Label text="Order number" />
+        <ComboBox fx:id="orderNumberComboBox" />
+        <Label text="Order Total (tax included) $" />
+        <TextField fx:id="orderTotalField" editable="false" />
+    </HBox>
+
+    <!-- List of Pizzas in the Order -->
+    <ListView fx:id="storeOrderListView" prefHeight="200.0" />
+
+    <!-- Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Cancel Order" fx:id="cancelOrderButton" />
+        <Button text="Export Store Orders" fx:id="exportOrdersButton" />
+    </HBox>
+</VBox>

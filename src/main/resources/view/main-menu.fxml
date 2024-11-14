@@ -25,7 +25,7 @@
     </VBox>
 
     <!-- Orders Placed -->
-    <VBox fx:id="ordersBox" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <VBox fx:id="ordersBox" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2" onMouseClicked="#handlePlacedOrdersClick">
         <ImageView fx:id="ordersImage" fitWidth="200" fitHeight="150">
             <Image url="@/place-order-1.png"/>
         </ImageView>
@@ -33,7 +33,7 @@
     </VBox>
 
     <!-- Current Order -->
-    <VBox fx:id="currentVBox" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <VBox fx:id="currentVBox" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2" onMouseClicked="#handleCurrentOrderClick">
         <ImageView fx:id="currentOrderImage" fitWidth="200" fitHeight="150">
             <Image url="@/cart.png"/>
         </ImageView>

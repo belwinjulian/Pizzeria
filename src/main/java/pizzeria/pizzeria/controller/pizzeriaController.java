@@ -87,4 +87,42 @@ public class pizzeriaController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleCurrentOrderClick(MouseEvent event){
+        try {
+            // Load the new FXML file for the Chicago view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/currentOrder-menu.fxml")); // Adjust the path if needed
+            Parent chicagoView = loader.load();
+
+            // Create a new Stage (window)
+            Stage newStage = new Stage();
+            newStage.setTitle("Chicago Style Pizza");
+            newStage.setScene(new Scene(chicagoView));
+
+            // Show the new window
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handlePlacedOrdersClick(MouseEvent event){
+        try {
+            // Load the new FXML file for the Chicago view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ordersPlaced-menu.fxml")); // Adjust the path if needed
+            Parent chicagoView = loader.load();
+
+            // Create a new Stage (window)
+            Stage newStage = new Stage();
+            newStage.setTitle("Chicago Style Pizza");
+            newStage.setScene(new Scene(chicagoView));
+
+            // Show the new window
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

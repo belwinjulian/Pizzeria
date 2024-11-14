@@ -89,7 +89,7 @@
     <!-- Price and Add to Order Button -->
     <HBox alignment="CENTER" spacing="10">
         <Label text="Pizza Price $" />
-        <TextField fx:id="priceTextField" editable="false" text="8.99" />
+        <TextField fx:id="priceTextField" editable="false"  />
         <Button onAction="#addToOrder" text="Add to Order" />
     </HBox>
 </VBox>
