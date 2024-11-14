@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #fdf5a6; -fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzeria.pizzeria.controller.ChicagoController">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #fdf5a6; -fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChicagoController">
     <!-- Title -->
     <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Chicago Style Pizza" />
 

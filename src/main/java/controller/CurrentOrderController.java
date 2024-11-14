@@ -1,4 +1,4 @@
-package pizzeria.pizzeria.controller; // Replace with your actual package
+package controller; // Replace with your actual package
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 15; -fx-background-color: lightyellow;" fx:controller="pizzeria.pizzeria.controller.OrdersPlacedController">
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" spacing="10" style="-fx-padding: 15; -fx-background-color: lightyellow;" fx:controller="controller.OrdersPlacedController">
     <!-- Title -->
     <Label text="Store Orders" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 

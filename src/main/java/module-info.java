@@ -3,5 +3,5 @@ module pizzeria.pizzeria {
     requires javafx.fxml;
 
     // Open the controller package for reflection access by JavaFX
-    opens pizzeria.pizzeria.controller to javafx.graphics, javafx.fxml;
+    opens controller to javafx.graphics, javafx.fxml;
 }

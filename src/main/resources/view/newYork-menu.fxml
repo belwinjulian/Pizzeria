@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #ADD8E6; -fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzeria.pizzeria.controller.NewYorkController">
+<VBox alignment="CENTER" spacing="10" style="-fx-background-color: #ADD8E6; -fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewYorkController">
     <!-- Title -->
     <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="New York Style Pizza" />
 

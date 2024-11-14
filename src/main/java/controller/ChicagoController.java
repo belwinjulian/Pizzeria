@@ -1,4 +1,4 @@
-package pizzeria.pizzeria.controller;
+package controller;
 
 
 import javafx.fxml.FXML;
