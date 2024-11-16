@@ -69,6 +69,8 @@ public class ChicagoController {
 
         createPizza("Build Your Own");
 
+        updateCrust("Build Your Own");
+
         // Add listeners for changes
         buildYourOwnComboBox.setOnAction(e -> {
             updateCrust(buildYourOwnComboBox.getValue());

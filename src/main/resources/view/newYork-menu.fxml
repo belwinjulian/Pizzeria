@@ -21,11 +21,7 @@
     <!-- Dropdown and Radio Buttons -->
     <HBox alignment="CENTER" spacing="10">
         <ComboBox fx:id="buildYourOwnComboBox" promptText="Build your own">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Build your own" />
-                </FXCollections>
-            </items>
+
         </ComboBox>
         <HBox alignment="CENTER" spacing="10">
             <!-- Defining RadioButtons with a shared ToggleGroup -->
@@ -42,7 +38,7 @@
     <!-- Crust Selection -->
     <HBox alignment="CENTER" spacing="10">
         <Label text="Crust" />
-        <TextField fx:id="crustTextField" text="Pan" />
+        <TextField fx:id="crustTextField"/>
     </HBox>
 
     <!-- Main Content -->
