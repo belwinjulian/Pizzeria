@@ -38,6 +38,7 @@ public class CurrentOrderController {
         subtotalField.setText("0.00");
         salesTaxField.setText("0.00");
         totalField.setText("0.00");
+
     }
 
     // Event handler for removing pizza

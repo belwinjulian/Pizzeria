@@ -8,10 +8,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Order;
+import model.OrderHistory;
 
 import java.io.IOException;
 
 public class pizzeriaController {
+
+    private Order currentOrder = new Order(); // Single instance shared across the app
+    private OrderHistory orderHistory = new OrderHistory(); // Single instance for all orders
+
 
     @FXML
     private VBox ordersBox;
@@ -34,12 +40,16 @@ public class pizzeriaController {
     @FXML
     private ImageView currentOrderImage;
 
+
+
+
     public void initialize() {
         addHoverEffect(ordersBox);
         addHoverEffect(chicagoVBox);
         addHoverEffect(nyVBox);
         addHoverEffect(currentVBox);
     }
+
 
     private void addHoverEffect(VBox vbox) {
         vbox.setOnMouseEntered(e -> {
@@ -48,6 +58,15 @@ public class pizzeriaController {
         vbox.setOnMouseExited(e -> {
             vbox.setStyle(""); // Reset to the default style when the mouse exits
         });
+    }
+
+    //getter methods for Order and Order History
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public OrderHistory getOrderHistory() {
+        return orderHistory;
     }
 
     @FXML

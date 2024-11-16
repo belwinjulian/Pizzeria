@@ -20,10 +20,13 @@
 
     <!-- Dropdown and Radio Buttons -->
     <HBox alignment="CENTER" spacing="10">
-        <ComboBox fx:id="buildYourOwnComboBox" promptText="Build your own">
+        <ComboBox fx:id="buildYourOwnComboBox">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Build your own" />
+                    <String fx:value="Build Your Own" />
+                    <String fx:value="Meatzza" />
+                    <String fx:value="Deluxe" />
+                    <String fx:value="BBQChicken" />
                 </FXCollections>
             </items>
         </ComboBox>
@@ -51,25 +54,25 @@
         <VBox alignment="CENTER" spacing="5">
             <Label text="Available Toppings" />
             <ListView fx:id="availableToppingsListView" prefHeight="150" prefWidth="120">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Sausage" />
-                        <String fx:value="BBQ Chicken" />
-                        <String fx:value="Beef" />
-                        <String fx:value="Ham" />
-                        <String fx:value="Pepperoni" />
-                        <String fx:value="Green Pepper" />
-                        <String fx:value="Onion" />
-                        <String fx:value="Mushroom" />
-                    </FXCollections>
-                </items>
+<!--                <items>-->
+<!--                    <FXCollections fx:factory="observableArrayList">-->
+<!--                        <String fx:value="Sausage" />-->
+<!--                        <String fx:value="BBQ Chicken" />-->
+<!--                        <String fx:value="Beef" />-->
+<!--                        <String fx:value="Ham" />-->
+<!--                        <String fx:value="Pepperoni" />-->
+<!--                        <String fx:value="Green Pepper" />-->
+<!--                        <String fx:value="Onion" />-->
+<!--                        <String fx:value="Mushroom" />-->
+<!--                    </FXCollections>-->
+<!--                </items>-->
             </ListView>
         </VBox>
 
         <!-- Buttons for Moving Toppings -->
         <VBox alignment="CENTER" spacing="5">
-            <Button onAction="#moveToAvailable" text="&lt;&lt;" />
-            <Button onAction="#moveToSelected" text="&gt;&gt;" />
+            <Button fx:id="moveToAvailableButton" onAction="#moveToAvailable" text="&lt;&lt;" />
+            <Button fx:id="moveToSelectedButton" onAction="#moveToSelected" text="&gt;&gt;" />
         </VBox>
 
         <!-- Selected Toppings -->
@@ -80,9 +83,7 @@
 
         <!-- Pizza Image -->
         <VBox alignment="CENTER" spacing="5">
-            <ImageView fx:id="pizzaImageView" fitHeight="150" fitWidth="150">
-                <Image url="@/Chicago-Style-pizza.jpg" /> <!-- Replace with your image path -->
-            </ImageView>
+            <ImageView fx:id="pizzaImageView" fitHeight="150" fitWidth="150"> </ImageView>
         </VBox>
     </HBox>
 
