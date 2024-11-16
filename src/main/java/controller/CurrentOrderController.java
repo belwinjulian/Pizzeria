@@ -13,8 +13,7 @@ import model.Pizza;
 
 public class CurrentOrderController {
 
-    OrderModel orderModel = OrderModel.getInstance();
-    Order currentOrder = orderModel.getCurrentOrder();
+
 
     @FXML
     private TextField orderNumberField;
@@ -61,6 +60,8 @@ public class CurrentOrderController {
     }
 
     private void updateOrderTotals(){
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
         double subtotal = currentOrder.getTotalCost()-currentOrder.getSalesTax();
         double salesTax = currentOrder.getSalesTax();
         double total = currentOrder.getTotalCost();
@@ -72,14 +73,16 @@ public class CurrentOrderController {
     }
 
     private void updateOrderNumber() {
-
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
         orderNumberField.setText(String.valueOf(currentOrder.getNumber()));
     }
 
 
 
     private void updatePizzaListView() {
-
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
 
         // Convert pizzas to a list of strings for display
         ObservableList<String> pizzaDescriptions = FXCollections.observableArrayList();
@@ -94,6 +97,9 @@ public class CurrentOrderController {
     // Event handler for removing pizza
     @FXML
     private void handleRemovePizzaButtonAction() {
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
+
         // Implement logic to remove selected pizza from the ListView
         String selectedPizza = orderListView.getSelectionModel().getSelectedItem();
         if (selectedPizza != null) {
@@ -130,22 +136,43 @@ public class CurrentOrderController {
     // Event handler for placing the order
     @FXML
     private void handlePlaceOrderButtonAction() {
-        // Implement logic to place the order
-        System.out.println("Order placed.");
-        // Clear the current order after placing
-        orderListView.getItems().clear();
-        subtotalField.setText("0.00");
-        salesTaxField.setText("0.00");
-        totalField.setText("0.00");
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
+
+        if(orderModel.finalizeCurrentOrder()){
+            updateOrderNumber();
+            updatePizzaListView();
+            updateOrderTotals();
+
+            // Display confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Order Placed");
+            alert.setHeaderText(null);
+            alert.setContentText("Your order has been placed successfully!");
+            alert.showAndWait();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Empty Order");
+            alert.setHeaderText(null);
+            alert.setContentText("There are no pizzas in the current order. Please add at least one pizza before placing the order.");
+            alert.showAndWait();
+        }
+
+
     }
 
     // Event handler for clearing the order
     @FXML
     private void handleClearOrderButtonAction() {
+        OrderModel orderModel = OrderModel.getInstance();
+        Order currentOrder = orderModel.getCurrentOrder();
         // Clear all items in the ListView
-        orderListView.getItems().clear();
-        subtotalField.setText("0.00");
-        salesTaxField.setText("0.00");
-        totalField.setText("0.00");
+
+        currentOrder.clearOrder();
+        updateOrderNumber();
+        updatePizzaListView();
+        updateOrderTotals();
+
     }
 }

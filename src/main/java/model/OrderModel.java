@@ -31,11 +31,13 @@ public class OrderModel {
     }
 
     // Method to add the current order to the order history and create a new order
-    public void finalizeCurrentOrder() {
+    public boolean finalizeCurrentOrder() {
         if (currentOrder != null && !currentOrder.getPizzas().isEmpty()) {
             orderHistory.addOrder(currentOrder);
             currentOrder = new Order(); // Start a new order
+            return true;
         }
+        return false;
     }
 
     // Method to get the order history

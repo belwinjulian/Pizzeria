@@ -53,6 +53,11 @@ public class Order {
         return pizzas;
     }
 
+    // Clear all pizzas from the order
+    public void clearOrder() {
+        pizzas.clear();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
