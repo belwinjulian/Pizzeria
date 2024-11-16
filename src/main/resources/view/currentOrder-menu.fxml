@@ -34,7 +34,7 @@
 
     <!-- Buttons -->
     <HBox spacing="10" style="-fx-padding: 10;">
-        <Button text="Remove Pizza" fx:id="removePizzaButton" />
+        <Button text="Remove Pizza" fx:id="removePizzaButton" onAction="#handleRemovePizzaButtonAction"/>
         <Button text="Place Order" fx:id="placeOrderButton" />
         <Button text="Clear Order" fx:id="clearOrderButton" />
     </HBox>

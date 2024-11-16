@@ -16,7 +16,9 @@ public class ChicagoController {
 
     private Pizza currentPizza; // Reference to the current Pizza object
     private static final int MAX_TOPPINGS = 7; // Define the maximum number of toppings
+    private final ChicagoPizza pizzaFactory = new ChicagoPizza(); // NYPizza factory instance
 
+    private OrderModel orderModel = OrderModel.getInstance();
 
     @FXML
     public ToggleGroup sizeGroup;
@@ -87,6 +89,7 @@ public class ChicagoController {
 
 
     }
+
     private void setFixedToppings(Pizza pizza) {
         // Clear the selected toppings list
         selectedToppingsListView.getItems().clear();
@@ -115,7 +118,6 @@ public class ChicagoController {
         availableToppingsListView.setDisable(!enable);
         //selectedToppingsListView.setDisable(!enable);
     }
-
 
 
     private void updateImage(String pizzaType) {
@@ -147,23 +149,23 @@ public class ChicagoController {
         // Create a new Pizza object based on the selected type
         switch (type) {
             case "Meatzza":
-                currentPizza = new Meatzza(Crust.STUFFED, getCurrentSize()); // Default crust example
+                currentPizza = pizzaFactory.createMeatzza(getCurrentSize());
                 setFixedToppings(currentPizza); // Display toppings for Meatzza
                 break;
             case "Deluxe":
-                currentPizza = new Deluxe(Crust.DEEP_DISH, getCurrentSize()); // Example for Deluxe
+                currentPizza = pizzaFactory.createDeluxe(getCurrentSize());
                 setFixedToppings(currentPizza); // Display toppings
                 break;
             case "Build Your Own":
-                currentPizza = new BuildYourOwn(Crust.PAN, getCurrentSize()); // Example for Build Your Own
+                currentPizza = pizzaFactory.createBuildYourOwn(getCurrentSize());
                 resetBuildYourOwnToppings(); // Reset toppings for Build Your Own
                 break;
             case "BBQChicken":
-                currentPizza = new BBQChicken(Crust.PAN, getCurrentSize()); // Example for BBQChicken
+                currentPizza = pizzaFactory.createBBQChicken(getCurrentSize());
                 setFixedToppings(currentPizza); // Display toppings
                 break;
             default:
-                currentPizza = new BuildYourOwn(Crust.PAN, getCurrentSize()); // Default pizza
+                currentPizza = pizzaFactory.createBuildYourOwn(getCurrentSize());
                 resetBuildYourOwnToppings(); // Reset toppings for Build Your Own
         }
 
@@ -234,7 +236,6 @@ public class ChicagoController {
     }
 
 
-
     @FXML
     private void moveToSelected() {
         // Logic for moving items from availableToppingsListView to selectedToppingsListView
@@ -283,7 +284,27 @@ public class ChicagoController {
     @FXML
     private void addToOrder() {
         // Logic for adding the order, e.g., collecting data and updating order list
-        System.out.println("Order added with selected options");
+        if (currentPizza == null) {
+            // If no pizza is selected or created, show a message
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Pizza Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a pizza before adding to the order.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Add the current pizza to the order
+        orderModel.getCurrentOrder().addPizza(currentPizza);
+
+
+        // Show a confirmation message  to the user
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Pizza Added");
+        alert.setHeaderText(null);
+        alert.setContentText("The pizza has been added to the order.");
+        alert.showAndWait();
+
     }
 }
 
