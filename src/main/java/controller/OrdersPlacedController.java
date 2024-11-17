@@ -6,9 +6,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import model.Order;
 import model.OrderModel;
 import model.Pizza;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class OrdersPlacedController {
 
@@ -39,7 +45,7 @@ public class OrdersPlacedController {
                 updateOrderPizzasListView(newSelection);
             }
         });
-        }
+    }
 
 
     private void updateOrderTotal(String newSelection) {
@@ -93,7 +99,7 @@ public class OrdersPlacedController {
     }
 
 
-        @FXML
+    @FXML
     private void handleCancelOrderAction() {
         // Logic for canceling the selected order
         String selectedOrder = orderNumberComboBox.getSelectionModel().getSelectedItem();
@@ -139,7 +145,6 @@ public class OrdersPlacedController {
                 orderTotalField.clear(); // Clear the total field
 
 
-
                 // Optionally, show a confirmation message
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Order Canceled");
@@ -157,5 +162,46 @@ public class OrdersPlacedController {
         }
 
 
+    }
+
+    @FXML
+    private void handleExportOrdersButtonAction() {
+        // Logic to export store orders
+        // Prompt the user to select a file location to save the export
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Store Orders");
+        fileChooser.setInitialFileName("store_orders.txt");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        File file = fileChooser.showSaveDialog(null);
+
+        System.out.println("Exporting store orders...");
+
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                // Retrieve all orders from the order history
+                OrderModel orderModel = OrderModel.getInstance();
+                for (Order order : orderModel.getOrderHistory().getOrders()) {
+                    writer.write(order.toString());
+                    writer.newLine(); // Add a newline between orders
+                    writer.newLine(); // Optional: add an extra newline for better separation
+                }
+
+                // Show a success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Export Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Store orders have been successfully exported to " + file.getAbsolutePath());
+                alert.showAndWait();
+            } catch (IOException e) {
+                // Show an error message if the file could not be written
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Export Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("An error occurred while exporting store orders.");
+                alert.showAndWait();
+            }
+
+        }
     }
 }

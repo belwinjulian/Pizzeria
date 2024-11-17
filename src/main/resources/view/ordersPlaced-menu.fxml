@@ -21,6 +21,6 @@
     <!-- Buttons -->
     <HBox spacing="10" alignment="CENTER">
         <Button text="Cancel Order" fx:id="cancelOrderButton" onAction="#handleCancelOrderButtonAction"/>
-        <Button text="Export Store Orders" fx:id="exportOrdersButton" />
+        <Button text="Export Store Orders" fx:id="exportOrdersButton" onAction="#handleExportOrdersButtonAction"/>
     </HBox>
 </VBox>
