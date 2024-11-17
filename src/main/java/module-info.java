@@ -7,4 +7,6 @@ module pizzeria.pizzeria {
 
     exports model;
     exports model.enums;
+    exports controller;
+    opens app to javafx.fxml, javafx.graphics;
 }
