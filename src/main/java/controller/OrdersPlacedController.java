@@ -99,21 +99,7 @@ public class OrdersPlacedController {
     }
 
 
-    @FXML
-    private void handleCancelOrderAction() {
-        // Logic for canceling the selected order
-        String selectedOrder = orderNumberComboBox.getSelectionModel().getSelectedItem();
-        if (selectedOrder != null) {
-            // Remove the order or handle it accordingly
-            System.out.println("Canceling order: " + selectedOrder);
-        }
-    }
 
-    @FXML
-    private void handleExportOrdersAction() {
-        // Logic to export store orders
-        System.out.println("Exporting store orders...");
-    }
 
     @FXML
     private void handleCancelOrderButtonAction() {
@@ -175,7 +161,6 @@ public class OrdersPlacedController {
 
         File file = fileChooser.showSaveDialog(null);
 
-        System.out.println("Exporting store orders...");
 
         if (file != null) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {

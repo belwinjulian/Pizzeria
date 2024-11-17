@@ -4,4 +4,7 @@ module pizzeria.pizzeria {
 
     // Open the controller package for reflection access by JavaFX
     opens controller to javafx.graphics, javafx.fxml;
+
+    exports model;
+    exports model.enums;
 }
