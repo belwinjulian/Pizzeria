@@ -1,7 +1,5 @@
 package controller;
 
-
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,91 +14,109 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Controller class for managing and displaying orders placed in the store.
+ * Handles actions such as viewing orders, canceling orders, and exporting orders to a file.
+ * This class integrates with JavaFX components to enable user interaction with store orders.
+ * Author: Belwin Julian, Suhas Murthy
+ */
 public class OrdersPlacedController {
 
     @FXML
-    private ComboBox<String> orderNumberComboBox;
+    private ComboBox<String> orderNumberComboBox; // ComboBox for selecting an order by number
 
     @FXML
-    private TextField orderTotalField;
+    private TextField orderTotalField; // TextField to display the total cost of the selected order
 
     @FXML
-    private ListView<String> storeOrderListView;
+    private ListView<String> storeOrderListView; // ListView to display the pizzas in the selected order
 
     @FXML
-    private Button cancelOrderButton;
+    private Button cancelOrderButton; // Button for canceling the selected order
 
     @FXML
-    private Button exportOrdersButton;
+    private Button exportOrdersButton; // Button for exporting store orders to a file
 
+    /**
+     * Initializes the controller and sets up default values and event listeners for UI components.
+     */
     @FXML
     public void initialize() {
-        // Initialization logic if needed, such as populating the ComboBox
-        populateOrderNumberComboBox();
+        populateOrderNumberComboBox(); // Populate the ComboBox with order numbers
 
-        // Add a listener to update the order total when a different order is selected
+        // Listener to update order details when a different order is selected
         orderNumberComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                updateOrderTotal(newSelection);
-                updateOrderPizzasListView(newSelection);
+                updateOrderTotal(newSelection); // Update the displayed order total
+                updateOrderPizzasListView(newSelection); // Update the ListView with the selected order's pizzas
             }
         });
     }
 
-
+    /**
+     * Updates the displayed order total when a new order is selected.
+     * @param newSelection the selected order number string
+     */
     private void updateOrderTotal(String newSelection) {
         if (newSelection != null) {
-            // Extract order number (assuming order number is displayed as "Order #<number>")
+            // Extract order number from string (assuming format "Order #<number>")
             String selectedOrderText = newSelection;
             int orderNumber = Integer.parseInt(selectedOrderText.replace("Order #", ""));
 
-            // Retrieve the corresponding order from the order history
+            // Retrieve the corresponding order from order history
             OrderModel orderModel = OrderModel.getInstance();
             Order selectedOrder = orderModel.getOrderHistory().findOrderByNumber(orderNumber);
 
             if (selectedOrder != null) {
-                // Display the order total (tax included)
+                // Display the total cost (including tax) of the order
                 double totalCost = selectedOrder.getTotalCost();
                 orderTotalField.setText(String.format("$%.2f", totalCost));
             }
         }
     }
 
+    /**
+     * Updates the ListView to display the pizzas in the selected order.
+     * @param newSelection the selected order number string
+     */
     private void updateOrderPizzasListView(String newSelection) {
         if (newSelection != null) {
-            // Extract order number (assuming order number is displayed as "Order #<number>")
+            // Extract order number from string (assuming format "Order #<number>")
             int orderNumber = Integer.parseInt(newSelection.replace("Order #", ""));
 
-            // Retrieve the corresponding order from the order history
+            // Retrieve the corresponding order from order history
             OrderModel orderModel = OrderModel.getInstance();
             Order selectedOrder = orderModel.getOrderHistory().findOrderByNumber(orderNumber);
 
             if (selectedOrder != null) {
-                // Populate the ListView with pizzas from the selected order
+                // Populate the ListView with descriptions of pizzas in the order
                 ObservableList<String> pizzaDescriptions = FXCollections.observableArrayList();
                 for (Pizza pizza : selectedOrder.getPizzas()) {
-                    pizzaDescriptions.add(pizza.toString()); // Assuming Pizza has a meaningful toString() method
+                    pizzaDescriptions.add(pizza.toString()); // Assumes Pizza class has a meaningful toString() method
                 }
                 storeOrderListView.setItems(pizzaDescriptions);
             }
         }
     }
 
+    /**
+     * Populates the ComboBox with order numbers from the order history.
+     */
     private void populateOrderNumberComboBox() {
-        OrderModel orderModel = OrderModel.getInstance(); // Assuming you have a singleton for OrderModel
+        OrderModel orderModel = OrderModel.getInstance(); // Get the singleton instance of OrderModel
         ObservableList<String> orderNumbers = FXCollections.observableArrayList();
 
-        // Convert each order to a string representation (e.g., order number or a descriptive string)
+        // Convert each order to a string representation (e.g., "Order #<number>")
         for (Order order : orderModel.getOrderHistory().getOrders()) {
             orderNumbers.add("Order #" + order.getNumber()); // Customize as needed
         }
-
-        orderNumberComboBox.setItems(orderNumbers);
+        orderNumberComboBox.setItems(orderNumbers); // Set the ComboBox items
     }
 
-
-
-
+    /**
+     * Handles the action of canceling the selected order.
+     * Displays a confirmation or error message based on the outcome.
+     */
     @FXML
     private void handleCancelOrderButtonAction() {
         // Get the selected order number from the ComboBox
@@ -117,6 +133,7 @@ public class OrdersPlacedController {
 
         int orderNumber = Integer.parseInt(selectedOrder.replace("Order #", ""));
 
+        // Retrieve the corresponding order from order history
         OrderModel orderModel = OrderModel.getInstance();
         Order selectedOrderObj = orderModel.getOrderHistory().findOrderByNumber(orderNumber);
 
@@ -125,13 +142,12 @@ public class OrdersPlacedController {
             boolean removed = orderModel.getOrderHistory().removeOrder(selectedOrderObj);
 
             if (removed) {
-                // Update the UI components if the order was successfully removed
-                populateOrderNumberComboBox(); // Refresh the ComboBox to reflect the change
+                // Update the UI components after successful removal
+                populateOrderNumberComboBox(); // Refresh the ComboBox
                 storeOrderListView.getItems().clear(); // Clear the ListView
                 orderTotalField.clear(); // Clear the total field
 
-
-                // Optionally, show a confirmation message
+                // Show a confirmation message
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Order Canceled");
                 alert.setHeaderText(null);
@@ -146,13 +162,14 @@ public class OrdersPlacedController {
                 alert.showAndWait();
             }
         }
-
-
     }
 
+    /**
+     * Handles the action of exporting store orders to a text file.
+     * Allows the user to select a file location for saving the export.
+     */
     @FXML
     private void handleExportOrdersButtonAction() {
-        // Logic to export store orders
         // Prompt the user to select a file location to save the export
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export Store Orders");
@@ -160,19 +177,17 @@ public class OrdersPlacedController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
         File file = fileChooser.showSaveDialog(null);
-
-
         if (file != null) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 // Retrieve all orders from the order history
                 OrderModel orderModel = OrderModel.getInstance();
                 for (Order order : orderModel.getOrderHistory().getOrders()) {
-                    writer.write(order.toString());
+                    writer.write(order.toString()); // Write the order details to the file
                     writer.newLine(); // Add a newline between orders
-                    writer.newLine(); // Optional: add an extra newline for better separation
+                    writer.newLine(); // Optional: add extra newline for better separation
                 }
 
-                // Show a success message
+                // Show a success message upon successful export
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Export Successful");
                 alert.setHeaderText(null);
@@ -186,7 +201,6 @@ public class OrdersPlacedController {
                 alert.setContentText("An error occurred while exporting store orders.");
                 alert.showAndWait();
             }
-
         }
     }
 }

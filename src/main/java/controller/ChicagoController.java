@@ -1,6 +1,5 @@
 package controller;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,73 +11,68 @@ import model.enums.Crust;
 import model.enums.Size;
 import model.enums.Topping;
 
+/**
+ * Controller class for managing the UI interactions for Chicago-style pizza orders.
+ * Handles user input, displays available and selected toppings, and updates pizza details.
+ * @author Belwin Julian, Suhas Murthy
+ */
 public class ChicagoController {
 
     private Pizza currentPizza; // Reference to the current Pizza object
-    private static final int MAX_TOPPINGS = 7; // Define the maximum number of toppings
-    private final ChicagoPizza pizzaFactory = new ChicagoPizza(); // NYPizza factory instance
-
-    private OrderModel orderModel = OrderModel.getInstance();
-
-    @FXML
-    public ToggleGroup sizeGroup;
-    @FXML
-    private ComboBox<String> buildYourOwnComboBox;
+    private static final int MAX_TOPPINGS = 7; // Maximum number of toppings allowed
+    private final ChicagoPizza pizzaFactory = new ChicagoPizza(); // Factory instance for creating Chicago-style pizzas
+    private OrderModel orderModel = OrderModel.getInstance(); // Singleton instance for managing orders
 
     @FXML
-    private TextField crustTextField;
-
+    public ToggleGroup sizeGroup; // Toggle group for selecting pizza size
     @FXML
-    private ListView<String> availableToppingsListView;
-
+    private ComboBox<String> buildYourOwnComboBox; // ComboBox for selecting pizza type
     @FXML
-    private ListView<String> selectedToppingsListView;
-
+    private TextField crustTextField; // TextField to display the crust type
     @FXML
-    private ImageView pizzaImageView;
-
+    private ListView<String> availableToppingsListView; // ListView for displaying available toppings
     @FXML
-    private TextField priceTextField;
-
+    private ListView<String> selectedToppingsListView; // ListView for displaying selected toppings
     @FXML
-    private Button moveToSelectedButton;
-
+    private ImageView pizzaImageView; // ImageView to display the selected pizza image
     @FXML
-    private Button moveToAvailableButton;
+    private TextField priceTextField; // TextField to display the current price of the pizza
+    @FXML
+    private Button moveToSelectedButton; // Button to move toppings to selected list
+    @FXML
+    private Button moveToAvailableButton; // Button to move toppings to available list
 
-    // Initialization method, called after all FXML fields are injected
-
+    // List of available toppings
     private ObservableList<String> availableToppings = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the controller and sets up initial data and listeners for UI components.
+     */
     @FXML
     public void initialize() {
-
+        // Populate available toppings list
         for (Topping topping : Topping.values()) {
-            availableToppings.add(topping.name()); // Adds the string representation of each topping
+            availableToppings.add(topping.name()); // Adds each topping's string representation
         }
-
         availableToppingsListView.setItems(availableToppings);
 
+        // Set crust text field as non-editable
         crustTextField.setEditable(false);
 
+        // Set default ComboBox value and update image
         buildYourOwnComboBox.setValue("Build Your Own");
-
         updateImage("Build Your Own");
 
-        buildYourOwnComboBox.setOnAction(e -> updateCrust(buildYourOwnComboBox.getValue()));
-
-        buildYourOwnComboBox.setOnAction(e -> updateImage(buildYourOwnComboBox.getValue()));
-
+        // Create default pizza and update crust
         createPizza("Build Your Own");
-
         updateCrust("Build Your Own");
 
-        // Add listeners for changes
+        // Set up listeners for user input
         buildYourOwnComboBox.setOnAction(e -> {
             updateCrust(buildYourOwnComboBox.getValue());
             updateImage(buildYourOwnComboBox.getValue());
             createPizza(buildYourOwnComboBox.getValue());
-            handleToppingModificationAvailability(); // Check if topping modification should be allowed
+            handleToppingModificationAvailability();
         });
 
         sizeGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
@@ -86,43 +80,43 @@ public class ChicagoController {
                 updatePizzaSize();
             }
         });
-
-
     }
 
+    /**
+     * Sets fixed toppings for non-build-your-own pizzas and updates the UI accordingly.
+     * @param pizza the pizza object to set fixed toppings for
+     */
     private void setFixedToppings(Pizza pizza) {
-        // Clear the selected toppings list
-        selectedToppingsListView.getItems().clear();
-
-        // Retrieve toppings from the currentPizza instance and display them
+        selectedToppingsListView.getItems().clear(); // Clear previous selections
         for (Topping topping : pizza.getToppings()) {
-            selectedToppingsListView.getItems().add(topping.name());
+            selectedToppingsListView.getItems().add(topping.name()); // Display toppings
         }
-
-        // Disable topping modification for predefined pizzas
-        enableToppingModification(false);
+        enableToppingModification(false); // Disable topping modification for predefined pizzas
     }
 
+    /**
+     * Determines if topping modification should be enabled based on the current pizza type.
+     */
     private void handleToppingModificationAvailability() {
-        if (currentPizza instanceof BuildYourOwn) {
-            enableToppingModification(true);
-        } else {
-            enableToppingModification(false);
-        }
+        enableToppingModification(currentPizza instanceof BuildYourOwn);
     }
 
-
+    /**
+     * Enables or disables the UI elements for modifying toppings.
+     * @param enable true to enable, false to disable
+     */
     private void enableToppingModification(boolean enable) {
         moveToSelectedButton.setDisable(!enable);
         moveToAvailableButton.setDisable(!enable);
         availableToppingsListView.setDisable(!enable);
-        //selectedToppingsListView.setDisable(!enable);
     }
 
-
+    /**
+     * Updates the displayed pizza image based on the selected type.
+     * @param pizzaType the type of pizza selected
+     */
     private void updateImage(String pizzaType) {
         String imagePath;
-
         switch (pizzaType) {
             case "Meatzza":
                 imagePath = "/MeatzzaChicago.jpg"; // Path to Meatzza image
@@ -137,81 +131,91 @@ public class ChicagoController {
                 imagePath = "/Chicago-Style-pizza.jpg"; // Path to Build Your Own image
                 break;
             default:
-                imagePath = "/Chicago-Style-pizza.jpg"; // Fallback image
+                imagePath = "/Chicago-Style-pizza.jpg"; // Default fallback image
         }
-
-        // Load and set the image
         Image image = new Image(getClass().getResourceAsStream(imagePath));
-        pizzaImageView.setImage(image);
+        pizzaImageView.setImage(image); // Set the image
     }
 
+    /**
+     * Creates a new pizza object based on the selected type.
+     * @param type the type of pizza to create
+     */
     private void createPizza(String type) {
-        // Create a new Pizza object based on the selected type
         switch (type) {
             case "Meatzza":
                 currentPizza = pizzaFactory.createMeatzza(getCurrentSize());
-                setFixedToppings(currentPizza); // Display toppings for Meatzza
+                setFixedToppings(currentPizza);
                 break;
             case "Deluxe":
                 currentPizza = pizzaFactory.createDeluxe(getCurrentSize());
-                setFixedToppings(currentPizza); // Display toppings
+                setFixedToppings(currentPizza);
                 break;
             case "Build Your Own":
                 currentPizza = pizzaFactory.createBuildYourOwn(getCurrentSize());
-                resetBuildYourOwnToppings(); // Reset toppings for Build Your Own
+                resetBuildYourOwnToppings();
                 break;
             case "BBQChicken":
                 currentPizza = pizzaFactory.createBBQChicken(getCurrentSize());
-                setFixedToppings(currentPizza); // Display toppings
+                setFixedToppings(currentPizza);
                 break;
             default:
                 currentPizza = pizzaFactory.createBuildYourOwn(getCurrentSize());
-                resetBuildYourOwnToppings(); // Reset toppings for Build Your Own
+                resetBuildYourOwnToppings();
         }
-
-        updatePrice(); // Update the displayed price
+        updatePrice();
     }
 
+    /**
+     * Updates the displayed price of the current pizza.
+     */
     private void updatePrice() {
         if (currentPizza != null) {
-            double price = currentPizza.price(); // Use the price() method of the Pizza class
+            double price = currentPizza.price();
             priceTextField.setText(String.format("$%.2f", price));
         }
     }
 
+    /**
+     * Retrieves the currently selected pizza size.
+     * @return the selected size, or SMALL by default
+     */
     private Size getCurrentSize() {
-        // Determine the selected size from the ToggleGroup (assuming RadioButton text matches Size enum names)
         RadioButton selectedSize = (RadioButton) sizeGroup.getSelectedToggle();
         if (selectedSize != null) {
-            return Size.valueOf(selectedSize.getText().toUpperCase()); // Assumes Size enum values are UPPER_CASE
+            return Size.valueOf(selectedSize.getText().toUpperCase());
         }
-        return Size.SMALL; // Default size if none is selected
+        return Size.SMALL; // Default size
     }
 
+    /**
+     * Updates the crust displayed based on the selected pizza type.
+     * @param pizzaType the type of pizza selected
+     */
     private void updateCrust(String pizzaType) {
         Crust crust;
-
         switch (pizzaType) {
             case "Meatzza":
-                crust = Crust.STUFFED; // Example crust for Meatzza
+                crust = Crust.STUFFED;
                 break;
             case "Deluxe":
-                crust = Crust.PAN; // Example crust for Deluxe
+                crust = Crust.PAN;
                 break;
             case "BBQChicken":
-                crust = Crust.HAND_TOSSED; // Example crust for BBQChicken
+                crust = Crust.HAND_TOSSED;
                 break;
             case "Build Your Own":
-                crust = Crust.PAN; // Default crust for Build Your Own
+                crust = Crust.PAN;
                 break;
             default:
-                crust = Crust.PAN; // Fallback crust type
+                crust = Crust.PAN;
         }
-
-        // Update the UI element (Label, TextField, etc.) to show the crust type
-        crustTextField.setText(crust.name());
+        crustTextField.setText(crust.name()); // Update crust display
     }
 
+    /**
+     * Updates the size of the current pizza and adjusts the price.
+     */
     private void updatePizzaSize() {
         if (currentPizza != null) {
             currentPizza.setSize(getCurrentSize());
@@ -219,48 +223,42 @@ public class ChicagoController {
         }
     }
 
+    /**
+     * Resets the toppings list for Build Your Own pizzas.
+     */
     private void resetBuildYourOwnToppings() {
-        // Clear selected toppings
         selectedToppingsListView.getItems().clear();
-
-        // Reset available toppings list using a copy of the original toppings
         availableToppingsListView.getItems().clear();
         availableToppingsListView.getItems().addAll(FXCollections.observableArrayList(Topping.values()).stream()
                 .map(Topping::name)
                 .toList());
-
-        // Clear any toppings in the current BuildYourOwn pizza object (if applicable)
         if (currentPizza instanceof BuildYourOwn) {
             currentPizza.getToppings().clear();
         }
     }
 
-
+    /**
+     * Moves a topping from the available list to the selected list.
+     */
     @FXML
     private void moveToSelected() {
-        // Logic for moving items from availableToppingsListView to selectedToppingsListView
-
-
         if (currentPizza.getToppings().size() >= MAX_TOPPINGS) {
-            // Show an alert or message indicating that the maximum number of toppings has been reached
-            showMaxToppingsAlert();
-            return; // Exit the method without adding the topping
+            showMaxToppingsAlert(); // Alert user if maximum toppings reached
+            return;
         }
-
-
         String selectedTopping = availableToppingsListView.getSelectionModel().getSelectedItem();
         if (selectedTopping != null) {
             availableToppingsListView.getItems().remove(selectedTopping);
             selectedToppingsListView.getItems().add(selectedTopping);
-            currentPizza.addTopping(Topping.valueOf(selectedTopping)); // Add the selected topping to the pizza
-            updatePrice(); // Update the price after adding a topping
-
+            currentPizza.addTopping(Topping.valueOf(selectedTopping));
+            updatePrice(); // Update price after adding a topping
         }
-
     }
 
+    /**
+     * Displays an alert when the maximum number of toppings is reached.
+     */
     private void showMaxToppingsAlert() {
-        // Create an alert to inform the user that the maximum number of toppings has been reached
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Maximum Toppings Reached");
         alert.setHeaderText(null);
@@ -268,24 +266,27 @@ public class ChicagoController {
         alert.showAndWait();
     }
 
+    /**
+     * Moves a topping from the selected list back to the available list.
+     */
     @FXML
     private void moveToAvailable() {
-        // Logic for moving items from selectedToppingsListView back to availableToppingsListView
         String selectedTopping = selectedToppingsListView.getSelectionModel().getSelectedItem();
         if (selectedTopping != null) {
-            selectedToppingsListView.getItems().remove(selectedTopping);
-            availableToppingsListView.getItems().add(selectedTopping);
-            currentPizza.removeTopping(Topping.valueOf(selectedTopping)); // Remove the selected topping from the pizza
-            updatePrice(); // Update the price after adding a topping
-
+            selectedToppingsListView.getItems().remove(selectedTopping); // Remove from selected list
+            availableToppingsListView.getItems().add(selectedTopping); // Add back to available list
+            currentPizza.removeTopping(Topping.valueOf(selectedTopping)); // Remove topping from pizza
+            updatePrice(); // Update the displayed price
         }
     }
 
+    /**
+     * Adds the current pizza to the order and displays a confirmation message.
+     */
     @FXML
     private void addToOrder() {
-        // Logic for adding the order, e.g., collecting data and updating order list
         if (currentPizza == null) {
-            // If no pizza is selected or created, show a message
+            // Alert the user if no pizza is selected or created
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Pizza Selected");
             alert.setHeaderText(null);
@@ -293,18 +294,12 @@ public class ChicagoController {
             alert.showAndWait();
             return;
         }
-
-        // Add the current pizza to the order
-        orderModel.getCurrentOrder().addPizza(currentPizza);
-
-
-        // Show a confirmation message  to the user
+        orderModel.getCurrentOrder().addPizza(currentPizza); // Add the pizza to the order
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Pizza Added");
         alert.setHeaderText(null);
         alert.setContentText("The pizza has been added to the order.");
-        alert.showAndWait();
-
+        alert.showAndWait(); // Show confirmation
     }
 }
 

@@ -2,33 +2,53 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a customer's order, containing a list of pizzas and providing functionality to add, remove, and calculate costs.
+ * Each order is assigned a unique order number.
+ * Author: Belwin Julian, Suhas Murthy
+ */
 public class Order {
     private static int orderCounter = 1; // Static counter to generate unique order numbers
-    private int number; // Unique order number
+    private int number; // Unique order number for this order
     private ArrayList<Pizza> pizzas; // List of pizzas in this order
 
-    // Constructor
+    /**
+     * Constructs a new Order with a unique order number.
+     */
     public Order() {
         this.number = orderCounter++;
         this.pizzas = new ArrayList<>();
     }
 
-    // Getter for order number
+    /**
+     * Gets the unique order number.
+     * @return the order number
+     */
     public int getNumber() {
         return number;
     }
 
-    // Add a pizza to the order
+    /**
+     * Adds a pizza to the order.
+     * @param pizza the pizza to add
+     */
     public void addPizza(Pizza pizza) {
         pizzas.add(pizza);
     }
 
-    // Remove a pizza from the order
+    /**
+     * Removes a pizza from the order.
+     * @param pizza the pizza to remove
+     * @return true if the pizza was removed successfully, false otherwise
+     */
     public boolean removePizza(Pizza pizza) {
         return pizzas.remove(pizza);
     }
 
-    // Calculate the total cost of the order (including sales tax)
+    /**
+     * Calculates the total cost of the order, including a 6.625% sales tax.
+     * @return the total cost of the order
+     */
     public double getTotalCost() {
         double subtotal = 0.0;
         for (Pizza pizza : pizzas) {
@@ -38,26 +58,37 @@ public class Order {
         return subtotal + salesTax;
     }
 
-    //Calculate Sales Tax
-    public double getSalesTax(){
+    /**
+     * Calculates the sales tax for the order based on a 6.625% tax rate.
+     * @return the sales tax amount
+     */
+    public double getSalesTax() {
         double subtotal = 0.0;
         for (Pizza pizza : pizzas) {
             subtotal += pizza.price();
         }
-        // 6.625% NJ sales tax
         return subtotal * 0.06625;
     }
 
-    // Get the list of pizzas in the order
+    /**
+     * Gets the list of pizzas in the order.
+     * @return the list of pizzas
+     */
     public ArrayList<Pizza> getPizzas() {
         return pizzas;
     }
 
-    // Clear all pizzas from the order
+    /**
+     * Clears all pizzas from the order.
+     */
     public void clearOrder() {
         pizzas.clear();
     }
 
+    /**
+     * Provides a string representation of the order, including the order number, pizzas, and total cost.
+     * @return a string representation of the order
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
