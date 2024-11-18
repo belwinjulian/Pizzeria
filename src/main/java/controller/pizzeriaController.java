@@ -90,7 +90,7 @@ public class pizzeriaController {
     private void handleChicagoClick(MouseEvent event) {
         try {
             // Load the new FXML file for the Chicago view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chicago-menu.fxml")); // Adjust the path if necessary
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chicago-view.fxml")); // Adjust the path if necessary
             Parent chicagoView = loader.load();
 
             // Create a new Stage (window)
@@ -114,7 +114,7 @@ public class pizzeriaController {
     private void handleNewYorkClick(MouseEvent event) {
         try {
             // Load the new FXML file for the New York view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/newYork-menu.fxml")); // Adjust the path if necessary
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/newYork-view.fxml")); // Adjust the path if necessary
             Parent newYorkView = loader.load();
 
             // Create a new Stage (window)
@@ -138,7 +138,7 @@ public class pizzeriaController {
     private void handleCurrentOrderClick(MouseEvent event) {
         try {
             // Load the new FXML file for the current orders view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/currentOrder-menu.fxml")); // Adjust the path if necessary
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/currentOrder-view.fxml")); // Adjust the path if necessary
             Parent currentOrderView = loader.load();
 
             // Create a new Stage (window)
@@ -162,7 +162,7 @@ public class pizzeriaController {
     private void handlePlacedOrdersClick(MouseEvent event) {
         try {
             // Load the new FXML file for the placed orders view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ordersPlaced-menu.fxml")); // Adjust the path if necessary
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ordersPlaced-view.fxml")); // Adjust the path if necessary
             Parent placedOrdersView = loader.load();
 
             // Create a new Stage (window)

@@ -10,7 +10,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main-menu.fxml")); // Adjust the path if needed
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main-menu-view.fxml")); // Adjust the path if needed
             Scene scene = new Scene(loader.load());
             primaryStage.setScene(scene);
             primaryStage.setTitle("RU Pizzeria Management System");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Author: Belwin Julian, Suhas Murthy
  */
 public class Order {
-    private static int orderCounter = 1; // Static counter to generate unique order numbers
+    private static int orderCounter = 0; // Static counter to generate unique order numbers
     private int number; // Unique order number for this order
     private ArrayList<Pizza> pizzas; // List of pizzas in this order
 
